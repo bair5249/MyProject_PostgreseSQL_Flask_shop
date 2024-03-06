@@ -1,10 +1,22 @@
+import psycopg2
 import ddatabase
-from flask import Flask, render_template, request, redirect
+import os
+from flask import Flask, render_template, request, flash, redirect
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "C:/Users/79615/PycharmProjects/shop_site/images"
 item = ddatabase.Item()
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'png'}
 # item.close_db()
+# item.clear_db()
+
+
+def allowed_file(filename):
+    """ Функция проверки расширения файла """
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/')
@@ -21,12 +33,25 @@ def about():
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     if request.method == "POST":
+        print(request.files)
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+
+        if file.filename == '':
+            return redirect(request.url)
+
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file_path = os.getcwd().replace("\\", "/") + "/images/" + filename
+        print(file_path)
         item_id = item.id_counter() + 1
         name = request.form['title']
         price = request.form['price']
 
-        item.adding_item(item_id, name, price)
-        return render_template("add_item.html")
+
+        item.adding_item(item_id, name, price, file_path)
+        return redirect(request.url)
     else:
         return render_template("add_item.html")
 

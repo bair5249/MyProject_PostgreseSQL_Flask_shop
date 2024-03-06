@@ -7,11 +7,11 @@
 {% block body %}
     {%for row in data%}
         <div>
-            <h1>Target name:</h1> <h3>{{row[1]}}</h3>
+            <h1>Название:</h1> <h3>{{row[1]}}</h3>
             <br>
-            <h1>Price: </h1> <h3>{{row[2]}}</h3>
+            <h1>Цена: </h1> <h3>{{row[2]}}</h3>
             <br>
-            <h1>In stock? </h1><h3>{% if row[3] %}
+            <h1>Есть в наличии </h1><h3>{% if row[3] %}
                 Yes
                 {% else %}
                 No
