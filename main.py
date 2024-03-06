@@ -1,7 +1,11 @@
+import ddatabase
 from flask import Flask, render_template, request, redirect
 
 
 app = Flask(__name__)
+item = ddatabase.Item()
+print(item.show_table())
+item.close_db()
 
 
 @app.route('/')
