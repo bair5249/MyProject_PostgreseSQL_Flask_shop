@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 
 
 app = Flask(__name__)
@@ -13,6 +13,11 @@ def index():
 @app.route('/about')
 def about():
     return render_template("about.html")
+
+
+@app.route('/add_item', methods=['POST', 'GET'])
+def add_item():
+    return render_template("add_item.html")
 
 
 if __name__ == '__main__':
