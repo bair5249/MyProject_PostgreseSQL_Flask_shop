@@ -20,5 +20,15 @@ class Item:
         data = self.cursor.fetchall()
         return data
 
+    def adding_item(self, id, name, price):
+        self.cursor.execute(f"INSERT INTO shop_table  values({id}, '{name}', {price}, True)")
+
+    def id_counter(self):
+        self.cursor.execute("SELECT count(*) FROM shop_table")
+        data = self.cursor.fetchall()[0][0]
+        print(data)
+        return data
+
+
 
 
