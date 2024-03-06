@@ -5,10 +5,19 @@
 {% endblock %}
 
 {% block body %}
-    {%data%}
-<!--    {%for row in data%}-->
-<!--    <tr>-->
-<!--        <td>{{row}}</td>-->
-<!--    </tr>-->
-<!--    {% endfor %}-->
+    {%for row in data%}
+        <div>
+            <h1>Target name:</h1> <h3>{{row[1]}}</h3>
+            <br>
+            <h1>Price: </h1> <h3>{{row[2]}}</h3>
+            <br>
+            <h1>In stock? </h1><h3>{% if row[3] %}
+                Yes
+                {% else %}
+                No
+                {% endif %}
+            </h3>
+            ----------------------------------------------------
+        </div>
+    {% endfor %}
 {% endblock %}
