@@ -18,7 +18,11 @@ class Item:
     def show_table(self):
         self.cursor.execute("SELECT * FROM shop_table")
         data = self.cursor.fetchall()
-        return data
+        lst = []
+        for row in data:
+            column_dict = {"id": row[0], "name": row[1], "price": row[2], "isactive": row[3], "file": row[4]}
+            lst.append(column_dict)
+        return lst
 
     def adding_item(self, id, name, price, file):
         self.cursor.execute(f"INSERT INTO shop_table  values({id}, '{name}', {price}, True, '{file}')")
@@ -26,7 +30,6 @@ class Item:
     def id_counter(self):
         self.cursor.execute("SELECT count(*) FROM shop_table")
         data = self.cursor.fetchall()[0][0]
-        print(data)
         return data
 
     def clear_db(self):

@@ -5,19 +5,22 @@
 {% endblock %}
 
 {% block body %}
-    {%for row in data%}
-        <div>
-            <h1>Название:</h1> <h3>{{row[1]}}</h3>
+        {%for row in data%}
+            <div>
+                <img src="{{ url_for('static', filename=row.file) }}" alt="{{row.file}}" width="300" height="250" align="right">
+                <h3>Название:</h3> <h4>{{row.name}}</h4>
             <br>
-            <h1>Цена: </h1> <h3>{{row[2]}}</h3>
+                <h3>Цена: </h3> <h4>{{row.price}}</h4>
             <br>
-            <h1>Есть в наличии </h1><h3>{% if row[3] %}
+            <h3>Есть в наличии </h3><h4>{% if row.isactive %}
                 Yes
                 {% else %}
                 No
                 {% endif %}
-            </h3>
-            ----------------------------------------------------
-        </div>
+                <br>
+                <hr>
+            </h4>
+            </div>
+            <br>
     {% endfor %}
 {% endblock %}

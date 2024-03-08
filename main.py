@@ -1,14 +1,14 @@
 import psycopg2
 import ddatabase
 import os
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "C:/Users/79615/PycharmProjects/shop_site/images"
+app = Flask(__name__, static_folder='static')
+app.config['UPLOAD_FOLDER'] = "C:/Users/79615/PycharmProjects/shop_site/static/images"
 item = ddatabase.Item()
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'png'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 # item.close_db()
 # item.clear_db()
 
@@ -22,7 +22,8 @@ def allowed_file(filename):
 @app.route('/')
 @app.route('/home')
 def index():
-    return render_template("index.html", data=item.show_table())
+    data = item.show_table()
+    return render_template("index.html", data=data)
 
 
 @app.route('/about')
@@ -33,7 +34,6 @@ def about():
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     if request.method == "POST":
-        print(request.files)
         if 'file' not in request.files:
             return redirect(request.url)
         file = request.files['file']
@@ -42,15 +42,13 @@ def add_item():
             return redirect(request.url)
 
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        file_path = os.getcwd().replace("\\", "/") + "/images/" + filename
-        print(file_path)
+        print(filename)
+        file.save(os.path.join("C:/Users/79615/PycharmProjects/shop_site/static/", filename))
         item_id = item.id_counter() + 1
         name = request.form['title']
         price = request.form['price']
 
-
-        item.adding_item(item_id, name, price, file_path)
+        item.adding_item(item_id, name, price, filename)
         return redirect(request.url)
     else:
         return render_template("add_item.html")
