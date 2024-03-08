@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+
         {%for row in data%}
             <div>
                 <img src="{{ url_for('static', filename=row.file) }}" alt="{{row.file}}" width="300" height="250" align="right">
@@ -12,14 +13,20 @@
             <br>
                 <h3>Цена: </h3> <h4>{{row.price}}</h4>
             <br>
-            <h3>Есть в наличии </h3><h4>{% if row.isactive %}
+            <h3>Есть в наличии </h3>
+                <h4>{% if row.isactive %}
                 Yes
                 {% else %}
                 No
                 {% endif %}
                 <br>
+                </h4>
+                <form action="/details" method="POST">
+                    <!-- скрытый параметр -->
+                    <input type="hidden" name="index" value="{{row.id}}">
+                    <input type="submit" class="btn btn-dark" value="Подробнее">
+                </form>
                 <hr>
-            </h4>
             </div>
             <br>
     {% endfor %}

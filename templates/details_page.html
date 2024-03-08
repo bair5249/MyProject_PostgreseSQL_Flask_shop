@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Подробности {{ name }}</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <img src="/static/{{filename}}" alt="{{filename}}" width="300" height="250" align="right">
+
+        <h3>Название:</h3> <h4>{{name}}</h4>
+            <br>
+                <h3>Цена: </h3> <h4>{{price}}</h4>
+            <br>
+            <h3>Есть в наличии </h3><h4>{% if isactive %}
+                Yes
+                {% else %}
+                No
+                {% endif %}
+                <br>
+                <hr>
+            </h4>
+    </div>
+
+{% endblock %}
